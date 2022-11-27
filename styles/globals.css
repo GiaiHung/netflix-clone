@@ -1,26 +1,39 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+body::-webkit-scrollbar-thumb {
+  border-radius: 20px;       /* roundness of the scroll thumb */
+}
+
+@layer base {
   body {
-    color: white;
-    background: black;
+    @apply overflow-x-hidden bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-500;
+  }
+
+  button {
+    @apply cursor-pointer
+  }
+}
+
+@layer components {
+  .header {
+    @apply fixed top-0 z-50 flex h-[60px] w-full items-center justify-between px-4 transition-all md:px-10;
+  }
+
+  .headerLink {
+    @apply text-lg font-semibold text-gray-200 hover:text-white;
+  }
+
+  .headerIcon {
+    @apply cursor-pointer text-3xl font-semibold;
+  }
+
+  .bannerBtn {
+    @apply flex cursor-pointer items-center space-x-2 rounded-md px-4 py-2 font-semibold opacity-100 hover:opacity-80;
   }
 }
