@@ -7,16 +7,16 @@
 }
 
 body::-webkit-scrollbar-thumb {
-  border-radius: 20px;       /* roundness of the scroll thumb */
+  border-radius: 20px; /* roundness of the scroll thumb */
 }
 
 @layer base {
   body {
-    @apply overflow-x-hidden bg-[#141414] text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-500;
+    @apply bg-[#141414] text-white overflow-x-hidden !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-500;
   }
 
   button {
-    @apply cursor-pointer
+    @apply cursor-pointer;
   }
 }
 
@@ -35,5 +35,9 @@ body::-webkit-scrollbar-thumb {
 
   .bannerBtn {
     @apply flex cursor-pointer items-center space-x-2 rounded-md px-4 py-2 font-semibold opacity-100 hover:opacity-80;
+  }
+
+  .loginInput {
+    @apply rounded-lg bg-[#333] px-4 py-2 outline-none placeholder:text-[gray] focus:bg-[#444] w-full;
   }
 }

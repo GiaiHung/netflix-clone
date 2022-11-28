@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 import Link from 'next/link'
+import useAuth from '../../hooks/useAuth'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const { signOut } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,9 +47,9 @@ function Header() {
         <div className="headerIcon">
           <AiOutlineBell />
         </div>
-        <Link href="/account">
-          <img src="/account.png" alt="" className="cursor-pointer rounded-md" />
-        </Link>
+        {/* <Link href="/account"> */}
+        <img src="/account.png" alt="" className="cursor-pointer rounded-md" onClick={signOut} />
+        {/* </Link> */}
       </div>
     </header>
   )

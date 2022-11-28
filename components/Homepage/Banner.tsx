@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { baseUrl } from '../../utils/constants'
@@ -16,17 +17,13 @@ function Banner({ netflixOriginals }: Props) {
 
   return (
     <div>
-      <div className="absolute top-0 left-0 h-[50vh] -z-10 md:h-screen w-screen">
-        <Image
-          src={`${baseUrl}${currentMovie?.backdrop_path || currentMovie?.poster_path}`}
-          alt=""
-          fill
-          priority
-          className="object-cover"
-        />
-      </div>
+      <img
+        src={`${baseUrl}${currentMovie?.backdrop_path || currentMovie?.poster_path}`}
+        alt=""
+        className="absolute top-0 left-0 -z-10 h-[60vh] w-screen object-cover md:h-screen"
+      />
 
-      <div className="z-10 flex md:h-[100vh] h-[50vh] max-w-4xl flex-col justify-center space-y-6 py-16 px-6  md:px-10">
+      <div className="z-10 flex h-[60vh] max-w-4xl flex-col justify-center space-y-6 py-16 px-6 md:h-[100vh]  md:px-10">
         <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl">
           {currentMovie?.title || currentMovie?.name || currentMovie?.original_name}
         </h2>
