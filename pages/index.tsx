@@ -1,7 +1,10 @@
 import Head from 'next/head'
+import { useRecoilValue } from 'recoil'
+import { modalAtom } from '../atoms/states'
 import Banner from '../components/Homepage/Banner'
 import Header from '../components/Homepage/Header'
 import Row from '../components/Homepage/Row'
+import Modal from '../components/Modal'
 import requests from '../utils/requests'
 
 interface Props {
@@ -25,6 +28,7 @@ export default function Home({
   topRated,
   trendingNow,
 }: Props) {
+  const showModal = useRecoilValue(modalAtom)
   return (
     <>
       <Head>
@@ -32,9 +36,9 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="relative bg-gradient-to-b from-gray-900/10 to-[#010511] mb-10">
+      <div className="relative mb-10 bg-gradient-to-b from-gray-900/10 to-[#010511]">
         <Header />
-        <main className="relative space-y-18">
+        <main className="space-y-18 relative">
           <Banner netflixOriginals={netflixOriginals} />
           <section>
             <Row title="Trending Now" movies={trendingNow} />
@@ -47,7 +51,7 @@ export default function Home({
             <Row title="Documentaries" movies={documentaries} />
           </section>
         </main>
-        {/* Modal */}
+        {showModal && <Modal />}
       </div>
     </>
   )

@@ -4,6 +4,7 @@
 
 * {
   box-sizing: border-box;
+  user-select: none;
 }
 
 body::-webkit-scrollbar-thumb {
@@ -34,10 +35,14 @@ body::-webkit-scrollbar-thumb {
   }
 
   .bannerBtn {
-    @apply flex cursor-pointer items-center space-x-2 rounded-md px-4 py-2 font-semibold opacity-100 hover:opacity-80;
+    @apply flex cursor-pointer items-center space-x-2 rounded-md px-8 py-2 font-semibold opacity-100 hover:opacity-80;
   }
 
   .loginInput {
     @apply rounded-lg bg-[#333] px-4 py-2 outline-none placeholder:text-[gray] focus:bg-[#444] w-full;
+  }
+
+  .modalButton {
+    @apply flex h-11 w-11 items-center justify-center rounded-full border-2 border-[gray] bg-[#2a2a2a]/60 transition hover:border-white hover:bg-white/10;
   }
 }

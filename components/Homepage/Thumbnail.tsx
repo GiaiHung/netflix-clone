@@ -1,13 +1,22 @@
 import Image from 'next/image'
 import React from 'react'
+import { useRecoilState } from 'recoil'
+import { modalAtom, movieAtom } from '../../atoms/states'
 
 interface Props {
   movie: Movie
 }
 
 function Thumbnail({ movie }: Props) {
+  const [modal,setModal] = useRecoilState(modalAtom)
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieAtom)
+
+  const handleThumbnail = () => {
+    setModal(true)
+    setCurrentMovie(movie)
+  }
   return (
-    <div className="group/item relative h-44 min-w-[256px] cursor-pointer rounded-sm transition duration-150 ease-linear hover:scale-110">
+    <div className="group/item relative h-44 min-w-[256px] cursor-pointer rounded-sm transition duration-150 ease-linear hover:scale-110" onClick={handleThumbnail}>
       <Image
         src={`https://image.tmdb.org/t/p/w500${movie.poster_path || movie.backdrop_path}`}
         alt=""
