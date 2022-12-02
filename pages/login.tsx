@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import {AiOutlineLoading3Quarters} from 'react-icons/ai'
 import useAuth from '../hooks/useAuth'
 import Cookies from 'js-cookie'
 
@@ -14,7 +15,7 @@ interface Inputs {
 
 function Login() {
   const [login, setLogin] = useState<boolean>(true)
-  const { signIn, signUp, user } = useAuth()
+  const { signIn, signUp, loading } = useAuth()
   const {
     register,
     handleSubmit,
@@ -28,8 +29,6 @@ function Login() {
       await signUp(email, password)
     }
   }
-
-  console.log(user)
 
   return (
     <>
@@ -77,7 +76,7 @@ function Login() {
             className="inline-block w-full max-w-[315px] rounded-md bg-[#E50914] py-3 text-white"
             onClick={() => setLogin(true)}
           >
-            Sign in
+            {loading ? <AiOutlineLoading3Quarters className='mx-auto text-2xl animate-spin'/> : 'Sign in'}
           </button>
           <div className="space-x-3 text-lg">
             <span className="text-gray-500">New to Netflix?</span>

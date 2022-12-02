@@ -3,12 +3,13 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signOut as logout,
+  signOut,
   User,
 } from 'firebase/auth'
 import { useRouter } from 'next/router'
-import { auth } from '../firebase'
+import { auth } from '../lib/firebase'
 import toast from 'react-hot-toast'
+import Cookies from 'js-cookie'
 
 interface AuthProviderProps {
   children: React.ReactNode
@@ -18,7 +19,7 @@ interface IAuth {
   user: User | null
   signUp: (email: string, password: string) => Promise<void>
   signIn: (email: string, password: string) => Promise<void>
-  signOut: () => Promise<void>
+  logout: () => Promise<void>
   loading: boolean
 }
 
@@ -26,7 +27,7 @@ const AuthContext = createContext<IAuth>({
   user: null,
   signUp: async () => {},
   signIn: async () => {},
-  signOut: async () => {},
+  logout: async () => {},
   loading: false,
 })
 
@@ -79,15 +80,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       .finally(() => setLoading(false))
   }
 
-  const signOut = async () => {
+  const logout = async () => {
     setLoading(true)
-    await logout(auth)
+    await signOut(auth)
       .then(() => {
-        router.push('/login')
         setUser(null)
-        setLoading(false)
+        Cookies.remove('loggedin')
       })
       .catch((error) => toast.error(error.message))
+      .finally(() => setLoading(false))
   }
 
   const memoedValue = useMemo(
@@ -96,7 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       loading,
       signUp,
       signIn,
-      signOut,
+      logout,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [user, loading]

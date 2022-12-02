@@ -6,7 +6,7 @@ import useAuth from '../../hooks/useAuth'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { signOut } = useAuth()
+  const { logout, user } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,9 +47,9 @@ function Header() {
         <div className="headerIcon">
           <AiOutlineBell />
         </div>
-        {/* <Link href="/account"> */}
-        <img src="/account.png" alt="" className="cursor-pointer rounded-md" onClick={signOut} />
-        {/* </Link> */}
+        <Link href="/account">
+          <img src="/account.png" alt="" className="cursor-pointer rounded-md" />
+        </Link>
       </div>
     </header>
   )
