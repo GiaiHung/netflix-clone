@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { AiOutlineBell, AiOutlineSearch } from 'react-icons/ai'
 import Link from 'next/link'
 import useAuth from '../../hooks/useAuth'
+import Menu from './Menu'
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -29,6 +30,8 @@ function Header() {
           alt="logo"
           className="w-[100px] cursor-pointer object-contain"
         />
+
+        <Menu />
 
         <ul className="hidden space-x-3 md:flex">
           <li className="headerLink">Home</li>

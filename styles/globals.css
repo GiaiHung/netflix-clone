@@ -47,6 +47,27 @@ body::-webkit-scrollbar-thumb {
   }
 
   .planBox {
-    @apply relative flex h-[80px] w-[calc(100%/3)] items-center justify-center rounded-md bg-[#E50914] after:absolute after:top-full after:border-8 after:border-b-0 after:border-transparent after:border-t-[#E50914] after:content-[''] md:h-[140px] px-4 md:px-0 mx-4 font-semibold ;
+    @apply relative mx-4 flex h-[80px] w-[calc(100%/3)] items-center justify-center rounded-md bg-[#E50914] px-4 font-semibold after:absolute after:top-full after:border-8 after:border-b-0 after:border-transparent after:border-t-[#E50914] after:content-[''] md:h-[140px] md:px-0;
+  }
+
+  .changePlanLink {
+    @apply w-fit cursor-pointer text-blue-500 hover:underline md:ml-auto;
+  }
+
+  /* Mui menu */
+  .menu {
+    @apply !opacity-90
+  }
+  
+  .menu .MuiPaper-root {
+    @apply !absolute !left-0 !rounded-none !border !border-[gray] !bg-black !text-white;
+  }
+
+  .menu .MuiList-root {
+    @apply !p-0;
+  }
+
+  .menu .MuiMenuItem-root {
+    @apply !block !w-72 !py-3.5 !text-center !text-sm !font-light !text-[#b3b3b3] !transition !duration-200 first:cursor-default first:!font-normal first:!text-white hover:!bg-[#11100F];
   }
 }
