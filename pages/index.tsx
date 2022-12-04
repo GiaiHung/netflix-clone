@@ -39,7 +39,8 @@ export default function Home({
   const showModal = useRecoilValue(modalAtom)
   const { loading, user } = useAuth()
   const subscription = useSubscription(user)
-  const myList = useList(user?.uid)
+  const myList = useList(user?.uid, 'myList')
+  const likedMovies = useList(user?.uid, 'likes')
   // console.log(myList)
 
   if (loading || subscription === null) return null
@@ -68,6 +69,7 @@ export default function Home({
             <Row title="Scary Movies" movies={horrorMovies} />
             <Row title="Romance Movies" movies={romanceMovies} />
             <Row title="Documentaries" movies={documentaries} />
+            {likedMovies.length > 0 && <Row title="Liked movies" movies={likedMovies} />}
           </section>
         </main>
         {showModal && <Modal />}
