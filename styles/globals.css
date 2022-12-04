@@ -13,7 +13,7 @@ body::-webkit-scrollbar-thumb {
 
 @layer base {
   body {
-    @apply bg-[#141414] text-white overflow-x-hidden !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-500;
+    @apply bg-gradient-to-b from-gray-900 to-[#010511] text-white overflow-x-hidden !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-red-500 -z-50;
   }
 
   button {

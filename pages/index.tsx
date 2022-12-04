@@ -56,9 +56,9 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="relative mb-10 bg-gradient-to-b from-gray-900/10 to-[#010511]">
+      <div className="relative">
         <Header />
-        <main className="space-y-18 relative">
+        <main className="relative bg-gradient-to-b from-gray-900 to-[#010511]">
           <Banner netflixOriginals={netflixOriginals} />
           <section>
             {myList.length > 0 && <Row title="My list" movies={myList} />}

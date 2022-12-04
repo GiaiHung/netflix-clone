@@ -25,10 +25,10 @@ function Banner({ netflixOriginals }: Props) {
       <img
         src={`${baseUrl}${movie?.backdrop_path || movie?.poster_path}`}
         alt=""
-        className="absolute top-0 left-0 -z-10 h-[60vh] w-screen object-cover md:h-screen"
+        className="absolute top-0 left-0 z-10 h-[60vh] w-screen object-cover md:h-screen"
       />
 
-      <div className="z-10 flex h-[60vh] max-w-4xl flex-col justify-center space-y-6 py-16 px-6 md:h-[100vh]  md:px-10">
+      <div className="relative z-20 flex h-[60vh] max-w-4xl flex-col justify-center space-y-6 py-16 px-6 md:h-[100vh]  md:px-10">
         <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl">
           {movie?.title || movie?.name || movie?.original_name}
         </h2>
