@@ -11,6 +11,7 @@ import useAuth from '../hooks/useAuth'
 import requests from '../utils/requests'
 import payments from '../lib/stripe'
 import useSubscription from '../hooks/useSubscription'
+import useList from '../hooks/useList'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -38,6 +39,8 @@ export default function Home({
   const showModal = useRecoilValue(modalAtom)
   const { loading, user } = useAuth()
   const subscription = useSubscription(user)
+  const myList = useList(user?.uid)
+  // console.log(myList)
 
   if (loading || subscription === null) return null
 
@@ -57,10 +60,10 @@ export default function Home({
         <main className="space-y-18 relative">
           <Banner netflixOriginals={netflixOriginals} />
           <section>
+            {myList.length > 0 && <Row title="My list" movies={myList} />}
             <Row title="Trending Now" movies={trendingNow} />
             <Row title="Top Rated" movies={topRated} />
             <Row title="Action Thrillers" movies={actionMovies} />
-            {/* My List */}
             <Row title="Comedies" movies={comedyMovies} />
             <Row title="Scary Movies" movies={horrorMovies} />
             <Row title="Romance Movies" movies={romanceMovies} />

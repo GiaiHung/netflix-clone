@@ -1,9 +1,10 @@
+import { DocumentData } from 'firebase/firestore'
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import Thumbnail from './Thumbnail'
 
 interface Props {
-  movies: Movie[]
+  movies: Movie[] | DocumentData[]
   title: string
 }
 

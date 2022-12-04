@@ -1,18 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import MuiModal from '@mui/material/Modal'
 import { useRecoilState } from 'recoil'
 import { modalAtom, movieAtom } from '../atoms/states'
-import { FaPlay, FaTimes, FaVolumeUp, FaVolumeMute, FaDivide } from 'react-icons/fa'
+import { FaPlay, FaTimes, FaVolumeUp, FaVolumeMute, FaDivide, FaPlus } from 'react-icons/fa'
 import { AiOutlineCheck } from 'react-icons/ai'
-import { BsHandThumbsUp } from 'react-icons/bs'
+import { BsFillHandThumbsUpFill, BsHandThumbsUp } from 'react-icons/bs'
 import ReactPlayer from 'react-player'
+import { collection, deleteDoc, doc, DocumentData, onSnapshot, setDoc } from 'firebase/firestore'
+import { db } from '../lib/firebase'
+import useAuth from '../hooks/useAuth'
+import toast from 'react-hot-toast'
 
 function Modal() {
   const [showModal, setShowModal] = useRecoilState(modalAtom)
   const [movie, setMovie] = useRecoilState(movieAtom)
+  const [movies, setMovies] = useState<Movie[] | DocumentData[]>([])
+  const { user } = useAuth()
   const [trailer, setTrailer] = useState('')
   const [genres, setGenres] = useState<Genre[]>([])
   const [muted, setMuted] = useState(true)
+  const [addedToList, setAddedToList] = useState<boolean>(false)
+  const [liked,setLiked] = useState<boolean>(false)
+  const [likedMovies, setLikedMovies] = useState<Movie[] | DocumentData[]>([])
 
   useEffect(() => {
     if (!movie) return
@@ -41,8 +51,74 @@ function Modal() {
     fetchMovie()
   }, [movie])
 
+  useEffect(() => {
+    if (user) {
+      return onSnapshot(collection(db, 'customers', user?.uid!, 'myList'), (snapshot) =>
+        setMovies(snapshot.docs)
+      )
+    }
+  }, [user, db, movie?.id])
+
+  useEffect(() => {
+    if (user) {
+      return onSnapshot(collection(db, 'customers', user?.uid!, 'likes'), (snapshot) =>
+        setLikedMovies(snapshot.docs)
+      )
+    }
+  }, [user, db, movie?.id])
+
+  useEffect(
+    () => setAddedToList(movies.findIndex((currentMovie) => currentMovie.data().id === movie?.id) !== -1),
+    [movies]
+  )
+  useEffect(
+    () =>
+      setLiked(
+        likedMovies.findIndex((currentMovie) => currentMovie.data().id === movie?.id) !== -1
+      ),
+    [likedMovies]
+  )
+
   const handleClose = () => {
     setShowModal(false)
+  }
+  const handleList = async () => {
+    if (addedToList) {
+      try {
+        await deleteDoc(doc(db, 'customers', user?.uid!, 'myList', movie?.id.toString()!))
+        toast.success(`${movie?.title || movie?.original_name} has been remove from your list`)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    } else {
+      try {
+        await setDoc(doc(db, 'customers', user?.uid!, 'myList', movie?.id.toString()!), {
+          ...movie,
+        })
+        toast.success(`${movie?.title} has been added to your list`)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    }
+  }
+  const handleLike = async () => {
+    if(liked) {
+      try {
+        await deleteDoc(doc(db, 'customers', user?.uid!, 'likes', movie?.id.toString()!))
+        toast.success(`${movie?.title || movie?.original_name} not really my type`)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    } else {
+      try {
+        await setDoc(doc(db, 'customers', user?.uid!, 'likes', movie?.id.toString()!), {
+          ...movie,
+        })
+        toast.success(`Great! I love ${movie?.title}`)
+      } catch (error: any) {
+        toast.error(error.message)
+      }
+    }
   }
   return (
     <MuiModal
@@ -60,9 +136,7 @@ function Modal() {
 
         <div className="relative top-10 pt-[56.25%]">
           <ReactPlayer
-            url={
-              `https://youtube.com/watch?v=${trailer ? trailer : 'nPQ4BpTfK1Q'}` 
-            }
+            url={`https://youtube.com/watch?v=${trailer ? trailer : 'nPQ4BpTfK1Q'}`}
             muted={muted}
             playing
             width="100%"
@@ -77,11 +151,11 @@ function Modal() {
                 <FaPlay className="h-5 w-5" />
                 <span>Play</span>
               </button>
-              <button className="modalButton">
-                <AiOutlineCheck />
+              <button className="modalButton" onClick={handleList}>
+                {addedToList ? <AiOutlineCheck /> : <FaPlus />}
               </button>
-              <button className="modalButton">
-                <BsHandThumbsUp />
+              <button className="modalButton" onClick={handleLike}>
+                {liked ? < BsFillHandThumbsUpFill className='text-gray-300'/> : <BsHandThumbsUp />}
               </button>
             </div>
             <div className="modalButton" onClick={() => setMuted(!muted)}>
